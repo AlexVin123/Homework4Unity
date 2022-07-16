@@ -37,13 +37,11 @@ public class ControlTrigger : MonoBehaviour
                 if(isAlarm == false)
                 {
                     isAlarm = true;
-                    Debug.Log("Вошёл");
                     _onAlarm.Invoke();
                 }
                 else
                 {
                     isAlarm = false;
-                    Debug.Log("Вышел");
                     _offAlarm.Invoke();
                 }
             }
