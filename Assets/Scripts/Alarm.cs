@@ -1,11 +1,11 @@
-
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Alarm : MonoBehaviour
 {
     private AudioSource _sound;
     private float _rateOfEvasion = 0.5f;
-    private bool _isEnable = false;
 
     private void Start()
     {
@@ -13,37 +13,43 @@ public class Alarm : MonoBehaviour
         _sound.volume = 0;
     }
 
-    private void Update()
-    {
-        if (_sound.volume == 0 && _isEnable == false && _sound.isPlaying == true)
-        {
-            _sound.Stop();
-        }
-
-        if (_isEnable == true)
-        {           
-                _sound.volume = Mathf.MoveTowards(_sound.volume, 1, _rateOfEvasion * Time.deltaTime);            
-        }
-        else
-        {            
-                _sound.volume = Mathf.MoveTowardsAngle(_sound.volume, 0, _rateOfEvasion * Time.deltaTime);            
-        }
-    }
-
     public void OnSound()
     {
-        if (_isEnable == false)
+        _sound.Play();
+        StartCoroutine(UpVolume());
+
+        if(_sound.volume == 1)
         {
-            _isEnable = true;
-            _sound.Play();
-        }
+            StopCoroutine(UpVolume());
+        }                
     }
 
     public void OffSound()
     {
-        if (_isEnable == true)
+        StartCoroutine(DownVolume());
+
+        if(_sound.volume == 0)
         {
-            _isEnable = false;
+            StopCoroutine(DownVolume());
+            _sound.Stop();
         }
+    }
+
+    private IEnumerator UpVolume()
+    {
+        while(_sound.volume != 1)
+        {
+            _sound.volume = Mathf.MoveTowards(_sound.volume, 1, _rateOfEvasion * Time.deltaTime);
+            yield return null;
+        }              
+    }
+
+    private IEnumerator DownVolume()
+    {
+        while(_sound.volume != 0)
+        {
+            _sound.volume = Mathf.MoveTowardsAngle(_sound.volume, 0, _rateOfEvasion * Time.deltaTime);
+            yield return null;
+        }                
     }
 }

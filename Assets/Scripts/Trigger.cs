@@ -4,14 +4,14 @@ using UnityEngine.Events;
 
 public class Trigger : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _isCollision;
-    [SerializeField] private UnityEvent _noCollision;
+    [SerializeField] private UnityEvent _entranceDetected;
+    [SerializeField] private UnityEvent _exitDetected;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Movement>(out Movement player))
         {
-            _isCollision.Invoke();
+            _entranceDetected.Invoke();
         }
     }
 
@@ -19,7 +19,7 @@ public class Trigger : MonoBehaviour
     {
         if (collision.TryGetComponent<Movement>(out Movement player))
         {
-            _noCollision.Invoke();
+            _exitDetected.Invoke();
         }
     }
 }
