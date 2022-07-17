@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class ControlAlarm : MonoBehaviour
+public class Alarm : MonoBehaviour
 {
     private AudioSource _sound;
     private float _rateOfEvasion = 0.5f;
@@ -47,5 +46,4 @@ public class ControlAlarm : MonoBehaviour
             _isEnable = false;
         }
     }
-
 }
